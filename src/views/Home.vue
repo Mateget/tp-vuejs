@@ -15,10 +15,10 @@
         <div class="card-body">
           <h5 class="card-title">{{ doodle.name }}</h5>
           <p class="card-text">
-            <!--{{ dateCreated_at(doodle) }}-->
-            Date : {{ doodle.createDate }}
+            Date : {{ dateCreated_at(doodle) }}
           </p>
-          <a href="#" class="btn btn-primary">Link</a>
+          <router-link class="btn btn-primary" :to="{ name: 'Doodle', params: { id: doodle.id } }">Afficher dessin</router-link>
+
         </div>
       </div>
     </div>
@@ -45,20 +45,14 @@ export default {
         .get("doodles")
         .then((response) => {
           this.doodles = response.data;
-          var options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
-          this.doodles.forEach( (doodle) => {
-              doodle.createDate = new Date(doodle.created_at*1000).toLocaleDateString('fr-FR',options);
-          })
         })
         .finally(() => {
           this.loading = false;
         });
     },
     dateCreated_at(doodle) {
-      console.log(doodle.created_at);
-      var date = new Date(doodle.created_at);
-      console.log(date);
-      return date.toDateString;
+      var options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
+      return new Date(doodle.created_at*1000).toLocaleDateString('fr-FR',options);
     },
   },
 };
