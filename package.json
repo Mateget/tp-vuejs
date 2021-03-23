@@ -9,11 +9,25 @@
   "dependencies": {
     "axios": "^0.21.1",
     "vue": "^3.0.5",
-    "vue-router": "4.0.5"
+    "vue-router": "4.0.5",
+    "vuex": "^4.0.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.1.5",
     "@vue/compiler-sfc": "^3.0.5",
+    "sass": "^1.32.8",
     "vite": "^2.1.0"
-  }
+  },
+  "main": "vite.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mateget/tp-vuejs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mateget/tp-vuejs/issues"
+  },
+  "homepage": "https://github.com/Mateget/tp-vuejs#readme",
+  "description": ""
 }

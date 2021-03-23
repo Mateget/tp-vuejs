@@ -14,11 +14,12 @@
       >
         <div class="card-body">
           <h5 class="card-title">{{ doodle.name }}</h5>
-          <p class="card-text">
-            Date : {{ dateCreated_at(doodle) }}
-          </p>
-          <router-link class="btn btn-primary" :to="{ name: 'Doodle', params: { id: doodle.id } }">Afficher dessin</router-link>
-
+          <p class="card-text">Date : {{ dateCreated_at(doodle) }}</p>
+          <router-link
+            class="btn btn-primary"
+            :to="{ name: 'Doodle', params: { id: doodle.id } }"
+            >Afficher dessin</router-link
+          >
         </div>
       </div>
     </div>
@@ -26,30 +27,14 @@
 </template>
 
 <script>
-import api from "../api.js";
+import { mapState } from 'vuex';
 
 export default {
-  data() {
-    return {
-      loading: false,
-      doodles: [],
-    };
-  },
+  computed: mapState(['loading', 'doodles']),
   mounted() {
-    this.refreshDoodles();
+    this.$store.dispatch('getDoodles');
   },
   methods: {
-    refreshDoodles() {
-      this.loading = true;
-      api
-        .get("doodles")
-        .then((response) => {
-          this.doodles = response.data;
-        })
-        .finally(() => {
-          this.loading = false;
-        });
-    },
     dateCreated_at(doodle) {
       var options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
       return new Date(doodle.created_at*1000).toLocaleDateString('fr-FR',options);
@@ -57,3 +42,5 @@ export default {
   },
 };
 </script>
+
+

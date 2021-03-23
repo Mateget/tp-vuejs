@@ -1,8 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "./views/Home.vue";
-import Page1 from "./views/Page1.vue";
-import Page2 from "./views/Page2.vue";
 import Doodle from "./views/Doodle.vue";
+import Create from "./views/Create.vue";
 
 const routes = [
   {
@@ -11,21 +10,17 @@ const routes = [
     component: Home,
   },
   {
-    path: "/page1",
-    name: "Page 1",
-    component: Page1,
-  },
-  {
-    path: "/page2",
-    name: "Page 2",
-    component: Page2,
-  },
-  {
     path: "/doodle/:id",
     name: "Doodle",
     component: Doodle,
     props: true,
   },
+  {
+    path: "/create",
+    name: "Create",
+    component: Create,
+    props: true,
+  }
 ];
 
 const router = createRouter({
