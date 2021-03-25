@@ -1,6 +1,14 @@
 <template>
   <div class="container">
-    <h1>{{ doodle.name }}</h1>
+    <div class="d-flex flex-row">
+      <h2 class="col-3">{{ doodle.name }}</h2>
+      <input
+        class="w-25 form-control p-1"
+        type="color"
+        @input="path.stroke = $event.target.value"
+        :value="path.stroke"
+      />
+    </div>
     <svg
       ref="svg"
       @mousedown="onMousedown"
@@ -62,7 +70,7 @@ export default {
   mounted() {
     this.$store.dispatch("getDoodle", this.id);
     this.onResize();
-    console.log("Doodle", this.doodle.paths);
+
     window.addEventListener("resize", this.onResize);
   },
   unmounted() {
@@ -77,6 +85,7 @@ export default {
     },
     onMousedown(e) {
       console.log("Down");
+      console.log(this.doodle);
       this.mousedown = true;
       this.updateMouseCoordinates(e);
       // on commence la ligne
@@ -92,18 +101,13 @@ export default {
     },
     onMouseup() {
       console.log("UP");
-      if(this.mousedown){
-        let newDoodle = Object.assign({}, this.doodle);
-        newDoodle.paths.push(Object.assign({}, this.path));
-        newDoodle.name = "Plop"
-        console.log(newDoodle);
-        /*this.$store 
-          .dispatch("postDoodle", newDoodle)
-          .then((doodle) => {
-          });*/
+      if (this.mousedown) {
+        let newpath = Object.assign({}, this.path);
+        newpath.id_doodle = this.id;
+        this.doodle.paths.push(newpath);
+        this.$store.dispatch("postPath", newpath);
       }
       this.mousedown = false;
-      
     },
     updateMouseCoordinates(e) {
       // coordonnées de la souris

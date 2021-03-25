@@ -53,8 +53,18 @@ const store = createStore({
             commit('loading', false);
           });
         });
-      }
-      
+    },
+    postPath({ commit }, path) {
+      commit('loading', true);
+      return new Promise(() => {
+        api.post('paths',path).then(response => {
+          console.log(response.data);
+        }).catch(error => {
+          console.log(error);
+        });
+      });
+    }
+    
   }
 });
 
