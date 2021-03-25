@@ -34,37 +34,45 @@ const store = createStore({
     },
     getDoodle({ commit }, id) {
       commit('loading', true);
-      api.get('doodles/'+id, { params: { expand: 'paths' } })
+      return new Promise((resolve, reject) => {
+        api.get('doodles/' + id, { params: { expand: 'paths' } })
         .then(response => {
           commit('doodle', response.data);
+          resolve(response.data);
+        }).catch(error => {
+          reject(error);
         })
         .finally(() => {
           commit('loading', false);
         });
+      });
     },
     postDoodle({ commit }, doodle) {
-        commit('loading', true);
-        return new Promise((resolve, reject) => {
-          api.post('doodles', doodle).then(response => {
+      commit('loading', true);
+      return new Promise((resolve, reject) => {
+        api.post('doodles', doodle).then(response => {
+          resolve(response.data);
+        }).catch(error => {
+          reject(error);
+        }).finally(() => {
+          commit('loading', false);
+        });
+      });
+    },
+    postPath({ commit }, path) {
+      commit('loading', true);
+      return new Promise((resolve, reject) => {
+        api.post('paths', path)
+          .then(response => {
             resolve(response.data);
           }).catch(error => {
             reject(error);
           }).finally(() => {
             commit('loading', false);
           });
-        });
-    },
-    postPath({ commit }, path) {
-      commit('loading', true);
-      return new Promise(() => {
-        api.post('paths',path).then(response => {
-          console.log(response.data);
-        }).catch(error => {
-          console.log(error);
-        });
       });
     }
-    
+
   }
 });
 
