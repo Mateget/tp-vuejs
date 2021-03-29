@@ -2,18 +2,28 @@
   <div class="container">
     <div class="d-flex flex-row">
       <h2 class="col-3">{{ doodle.name }}</h2>
+      <div class="col-3">
+      <label>Color</label>
       <input
-        class="w-25 form-control"
+        class="form-control"
         type="color"
         @input="path.stroke = $event.target.value"
         :value="path.stroke"
       />
+      </div>
+      <div class="col-1"></div>
+      <div class="col-3 d-flex flex-column">
+      <label>Stroke width</label>
       <input
-        class="w-25 form-control"
-        type="number"
         @input="path.stroke_width = $event.target.value"
         :value="path.stroke_width"
+        type="range"
+        min="1"
+        max="15"
+        step="0.2"
+        class="custom-range"
       />
+      </div>
     </div>
     <svg
       ref="svg"
@@ -90,7 +100,6 @@ export default {
       this.vbHeight = r.height;
     },
     onMousedown(e) {
-
       this.mousedown = true;
       this.updateMouseCoordinates(e);
       // on commence la ligne
@@ -107,13 +116,12 @@ export default {
     onMouseup() {
       if (this.mousedown) {
         let newpath = Object.assign({}, this.path);
-        
+
         newpath.id_doodle = this.id;
         this.$store.dispatch("postPath", newpath).then(() => {
-          this.$store.dispatch("getDoodle", this.id).then(()=>{
-            this.path.d =""
-          })
-          
+          this.$store.dispatch("getDoodle", this.id).then(() => {
+            this.path.d = "";
+          });
         });
       }
       this.mousedown = false;

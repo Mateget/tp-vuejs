@@ -20,7 +20,8 @@ const routes = [
     name: "Create",
     component: Create,
     props: true,
-  }
+  },
+  { path: '/:p(\\d+)', name: 'HomeP', component: Home, props: true },
 ];
 
 const router = createRouter({

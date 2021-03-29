@@ -6,7 +6,8 @@ const store = createStore({
   state: {
     loading: false,
     doodles: [],
-    doodle: {}
+    doodle: {},
+    page: 1
   },
   // les mutations permettent de modifier l'état de façon synchrone
   mutations: {
@@ -18,14 +19,22 @@ const store = createStore({
     },
     doodle(state, doodle) {
       state.doodle = doodle;
+    },
+    page(state, page) {
+      state.page = page;
     }
   },
+  // api.get('doodles', { params: { 'per-page': 5 } });
   // les actions permettent de modifier l'état de façon asynchrone
   actions: {
-    getDoodles({ commit }) {
+    getDoodles({ commit,state }) {
       commit('loading', true);
-      api.get('doodles')
+      let parametres = { 'per-page': 12, page:state.page }
+      //if(parms.page!=null) parametres.page = parms.page
+      console.log(parametres);
+      api.get('doodles', { params: parametres })
         .then(response => {
+          console.log(response.headers);
           commit('doodles', response.data);
         })
         .finally(() => {
